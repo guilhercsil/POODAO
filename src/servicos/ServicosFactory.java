@@ -18,5 +18,9 @@ public class ServicosFactory {
     public static PessoaServicos getPessoaServicos(){
         return pessoaS;
     }
-
+    public static CarroServicos carroS = new CarroServicos ();
+    
+    public static CarroServicos getCarroServicos(){
+        return carroS;
+    }
 }

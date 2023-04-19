@@ -97,6 +97,36 @@ public class CarroDAO {
         }
         return c;
 
-    }
+    }//fim getCarro
 
+    public void atualizarCarro(Carro cVO) {
+        try {
+            Connection con = Conexao.getConexao();
+            String sql = "update carros set cor = ?,tpCambio = ?, combustivel = ?, proprietario = ? where placa = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, cVO.getCor());
+            pst.setString(2, cVO.getTpCambio());
+            pst.setString(3, cVO.getCombustivel());
+            PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
+            pst.setInt(4, pessoaS.getPessoaByDoc(cVO.getProprietario().getCpf()).getIdPessoa());
+            pst.setString(5, cVO.getPlaca());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar placa.\n" + e.getMessage());
+        }
+    }//fim atualizarCarro
+
+    public void deletarCarro(String placa){
+        try {
+            Connection con = Conexao.getConexao();
+            String sql = "delete from carros where placa = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, placa);
+            pst.executeUpdate();
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao deletar placa.\n" + e.getMessage());
+        }
+    }
+    
 }// fim classe

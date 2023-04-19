@@ -10,6 +10,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Carro;
 import model.Pessoa;
+import servicos.CarroServicos;
 import servicos.PessoaServicos;
 import servicos.ServicosFactory;
 import util.Validadores;
@@ -192,14 +193,17 @@ public class INF3N212Carro {
         String combustivel;
         Pessoa proprietario;
         boolean pCarro = true;
+        CarroServicos carroS = ServicosFactory.getCarroServicos();
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
         do {
             System.out.print("Informe a Placa: ");
             placa = leia.nextLine();
             placa = placa.toUpperCase();
             pCarro = Validadores.validarPlaca(placa);
             if (pCarro) {
-                Carro carro = cadCarro.getCarroPlaca(placa);
-                if (carro == null) {
+                //Carro carro = cadCarro.getCarroPlaca(placa);
+                Carro carro = carroS.getCarroByDoc(placa);
+                if (carro.getPlaca() == null) {
                     System.out.print("Informe a marca: ");
                     marca = leia.nextLine();
                     System.out.print("Informe o modelo: ");
@@ -222,8 +226,9 @@ public class INF3N212Carro {
                     do {
                         System.out.print("Informe o CPF do proprietário: ");
                         String cpf = leia.nextLine();
-                        proprietario = cadPessoa.getPessoaCPF(cpf);
-                        if (proprietario == null) {
+                        //proprietario = cadPessoa.getPessoaCPF(cpf);
+                        proprietario = pessoaS.getPessoaByDoc(cpf);
+                        if (proprietario.getCpf() == null) {
                             System.out.println("CPF não cadastrado,"
                                     + " tente novamente!");
                         } else {
@@ -241,7 +246,8 @@ public class INF3N212Carro {
                     } while (proprietario == null);
                     pCarro = false;
                     Carro c = new Carro(placa, marca, modelo, anoFab, anoMod, cor, tpCambio, combustivel, proprietario);
-                    cadCarro.addCarro(c);
+                    //cadCarro.addCarro(c);
+                    carroS.cadastrarCarro(c);
                     System.out.println("Carro cadastrado com sucesso!");
                 } else {
                     System.out.println("Placa já cadastrada.");
