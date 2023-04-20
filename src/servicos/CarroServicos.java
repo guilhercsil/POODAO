@@ -19,7 +19,7 @@ public class CarroServicos {
         cDAO.cadastrarCarroDAO(cVO);
     }    
     
-    public ArrayList<Carro> getCarro(){
+    public ArrayList<Carro> getCarros(){
         CarroDAO cDAO = DAOFactory.getCarroDAO();
         return cDAO.getCarros();
        
